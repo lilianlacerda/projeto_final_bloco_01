@@ -13,7 +13,8 @@ public class FilmeController implements IFilmeRepository{
 
 	@Override
 	public void cadastrar(Filme filme) {
-		// TODO Auto-generated method stub
+		listaFilmes.add(filme);
+		System.out.println("O Filme " + filme.getTitulo() + " foi criado com sucesso!\n");
 		
 	}
 
@@ -34,6 +35,10 @@ public class FilmeController implements IFilmeRepository{
 	public void deletar(int idFilme) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int gerarId() {
+		return ++ idUltimoFilme;
 	}
 
 }

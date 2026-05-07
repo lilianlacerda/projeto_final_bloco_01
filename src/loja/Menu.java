@@ -15,12 +15,6 @@ public class Menu {
 
 	public static void main(String[] args) {
 
-		//Testando classe filme
-		EdicaoEspecial f2 = new EdicaoEspecial(1, "O Auto da Compadecida", "Guel Arraes", "Comédia", 1999, 30.00f, 1, 2);
-		EdicaoSimples f3 = new EdicaoSimples(1, "O Auto da Compadecida", "Guel Arraes", "Comédia", 1999, 30.00f, 1, 1);
-		
-		f3.visualizar();
-
 		int opcao;
 
 		while (true) {
@@ -62,6 +56,7 @@ public class Menu {
 			switch (opcao) {
 			case 1:
 				System.out.println("Cadastrar Filme\n\n");
+				cadastrarFilme();
 				keyPress();
 				break;
 			case 2:
@@ -93,5 +88,41 @@ public class Menu {
 	private static void listarFilmes() {
 		filmeController.listarTodos();
 	}
+	
+	// || leia.skip("\\R");
+	private static void cadastrarFilme() {
+		System.out.print("Digite o Título do filme: ");
+		String titulo = leia.nextLine();
 
+		System.out.print("Digite o nome do Diretor: ");
+		String diretor = leia.nextLine();
+		
+		System.out.print("Digite o Gênero do Filme: ");
+		String genero = leia.nextLine();
+		
+		System.out.print("Digite o Ano de Lançamento do Filme: ");
+		int anoLancamento = leia.nextInt();
+		
+		System.out.print("Digite o Preço do Filme: ");
+		float preco = leia.nextFloat();
+
+		System.out.print("Digite o tipo do DVD (1 - Edição Simples | 2 - Edição Especial): ");
+		int tipo = leia.nextInt();
+
+		switch (tipo) {
+		case 1 -> {
+			System.out.println("O DVD possui algum extra? (1 - Sim | 2 - Não) ");
+			int possuiExtra = leia.nextInt();
+			filmeController.cadastrar(
+					new EdicaoSimples(filmeController.gerarId(), titulo, diretor, genero, anoLancamento, preco, tipo, possuiExtra));
+		}
+		case 2 -> {
+			System.out.println("O DVD possui algum Brinde Físico? (1 - Sim | 2 - Não) ");
+			int possuiBrinde = leia.nextInt();
+			filmeController.cadastrar(
+					new EdicaoEspecial(filmeController.gerarId(), titulo, diretor, genero, anoLancamento, preco, tipo, possuiBrinde));
+		}
+		default -> System.out.println("Tipo de Filme inválido!");
+		}
+	}
 }
