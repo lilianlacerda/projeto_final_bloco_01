@@ -63,5 +63,14 @@ public class FilmeController implements IFilmeRepository {
 
 		return null;
 	}
-
+	
+	public void buscarPorId(int idFilme) {
+		var filme = buscarNaCollection(idFilme);
+		
+		if(filme != null) {
+			filme.visualizar();
+		}else {
+			System.out.println("O filme com número identificador: " + idFilme + "não foi encontrado!");
+		}
+	}
 }
