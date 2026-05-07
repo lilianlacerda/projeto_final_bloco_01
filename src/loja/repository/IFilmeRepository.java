@@ -8,5 +8,7 @@ public interface IFilmeRepository {
 	public void listarTodos();
 	public void atualizar(Filme filme);
 	public void deletar(int idFilme);
+	public void buscarPorId(int idFilme);
+	public void buscarPorNome(String nome);
 
 }

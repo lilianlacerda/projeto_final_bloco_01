@@ -49,6 +49,30 @@ public class FilmeController implements IFilmeRepository {
 			System.out.printf("O Filme numero: %d não foi encontrado!%n", idFilme);
 		}
 	}
+	
+	@Override
+	public void buscarPorId(int idFilme) {
+		var filme = buscarNaCollection(idFilme);
+		
+		if(filme != null) {
+			filme.visualizar();
+		}else {
+			System.out.println("O filme com número identificador: " + idFilme + "não foi encontrado!");
+		}
+	}
+	
+	@Override
+	public void buscarPorNome(String nome) {
+		List<Filme> filmesEncontrados = buscarNome(nome);
+		
+		if(filmesEncontrados != null) {
+			for(Filme filme : filmesEncontrados) {
+				filme.visualizar();
+			}
+		}else {
+			System.out.println("\n\nNenhum filme encontrado!");
+		}
+	}
 
 	public int gerarId() {
 		return ++idUltimoFilme;
@@ -64,13 +88,13 @@ public class FilmeController implements IFilmeRepository {
 		return null;
 	}
 	
-	public void buscarPorId(int idFilme) {
-		var filme = buscarNaCollection(idFilme);
-		
-		if(filme != null) {
-			filme.visualizar();
-		}else {
-			System.out.println("O filme com número identificador: " + idFilme + "não foi encontrado!");
-		}
+	public List<Filme> buscarNome(String nome){
+			List<Filme> nomesFilmes = listaFilmes.stream()
+					.filter(filme -> filme.getTitulo()
+							.toLowerCase()
+							.contains(nome.toLowerCase()))
+					.toList();
+			
+			return nomesFilmes;
 	}
 }

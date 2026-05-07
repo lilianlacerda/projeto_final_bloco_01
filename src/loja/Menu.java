@@ -29,6 +29,7 @@ public class Menu {
 			System.out.println("*     3 - Atualizar dados do Filme       *");
 			System.out.println("*     4 - Apagar filme                   *");
 			System.out.println("*     5 - Buscar por N° de Identific.    *");
+			System.out.println("*     6 - Buscar Filme por Nome          *");
 			System.out.println("*     0 - Sair                           *");
 			System.out.println("*                                        *");
 			System.out.println("******************************************");
@@ -78,6 +79,11 @@ public class Menu {
 			case 5:
 				System.out.println("Buscar Filme por Número de Identificação");
 				buscarFilmePorId();
+				keyPress();
+				break;
+			case 6:
+				System.out.println("Buscar Filme por nome: ");
+				buscarFilmePorNome();
 				keyPress();
 				break;
 			default:
@@ -220,5 +226,12 @@ public class Menu {
 		leia.nextLine();
 		
 		filmeController.buscarPorId(idFilme);
+	}
+	
+	private static void buscarFilmePorNome() {
+		System.out.println("Digite o nome do filme: ");
+		String nomeFilme = leia.nextLine();
+		
+		filmeController.buscarPorNome(nomeFilme);
 	}
 }
