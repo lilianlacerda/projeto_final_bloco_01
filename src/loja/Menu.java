@@ -66,10 +66,12 @@ public class Menu {
 				break;
 			case 3:
 				System.out.println("Atualizar dados do filme\n\n");
+				atualizarFilme();
 				keyPress();
 				break;
 			case 4:
 				System.out.println("Apagar Filme\n\n");
+				deletarFilme();
 				keyPress();
 				break;
 			default:
@@ -89,7 +91,6 @@ public class Menu {
 		filmeController.listarTodos();
 	}
 	
-	// || leia.skip("\\R");
 	private static void cadastrarFilme() {
 		System.out.print("Digite o Título do filme: ");
 		String titulo = leia.nextLine();
@@ -123,6 +124,87 @@ public class Menu {
 					new EdicaoEspecial(filmeController.gerarId(), titulo, diretor, genero, anoLancamento, preco, tipo, possuiBrinde));
 		}
 		default -> System.out.println("Tipo de Filme inválido!");
+		}
+	}
+	
+	private static void atualizarFilme() {
+		
+		System.out.print("Digite o número identificador do filme: ");
+		int idFilme = leia.nextInt();
+		leia.nextLine();
+
+		Filme filme = filmeController.buscarNaCollection(idFilme);
+
+		if (filme != null) {
+
+			String titulo = filme.getTitulo();
+			String diretor = filme.getDiretor();
+			String genero = filme.getGenero();
+			int anoLancamento = filme.getAnoLancamento();
+			float preco = filme.getPreco();
+			int tipo = filme.getTipo();
+			String entrada;
+
+			System.out.println("Título atual: " + titulo + "\nNovo Título (pressione ENTER para manter): ");
+			entrada = leia.nextLine();
+			titulo = entrada.isEmpty() ? titulo : entrada;
+
+			System.out.println("Diretor atual: " + diretor + "\nNovo Diretor (pressione ENTER para manter): ");
+			entrada = leia.nextLine();
+			diretor = entrada.isEmpty() ? diretor : entrada;
+			
+			System.out.println("Genero atual: " + genero + "\nNovo Genero (pressione ENTER para manter): ");
+			entrada = leia.nextLine();
+			genero = entrada.isEmpty() ? genero : entrada;
+			
+			System.out.println("Ano de Lançamento atual: " +  anoLancamento + "\nNovo Ano de Lançamento (pressione ENTER para manter): " );
+			entrada = leia.nextLine();
+			anoLancamento = entrada.isEmpty() ? anoLancamento : Integer.parseInt(entrada);
+
+			System.out.printf("Preço Atual: R$ %.2f%n", preco);
+			System.out.print("Novo Preço (pressione ENTER para manter): ");
+			entrada = leia.nextLine();
+			preco = entrada.isEmpty() ? preco : Float.parseFloat(entrada.replace(',', '.'));
+
+			switch (tipo) {
+			case 1 -> {
+				int possuiExtra = ((EdicaoSimples) filme).getPossuiExtraNoDisco();
+
+				System.out.println("Ano de Lançamento atual: " +  possuiExtra + "\nNovo Ano de Lançamento (pressione ENTER para manter): " );
+				entrada = leia.nextLine();
+				possuiExtra = entrada.isEmpty() ? possuiExtra : Integer.parseInt(entrada);
+
+				filmeController.atualizar(new EdicaoSimples(idFilme, titulo, diretor, genero, anoLancamento, preco, tipo, possuiExtra));
+			}
+			case 2 -> {
+				int possuiBrinde = ((EdicaoEspecial) filme).getBrindesFisicos();
+				System.out.println("Ano de Lançamento atual: " +  possuiBrinde + "\nNovo Ano de Lançamento (pressione ENTER para manter): " );
+				entrada = leia.nextLine();
+				possuiBrinde = entrada.isEmpty() ? possuiBrinde : Integer.parseInt(entrada);
+
+				filmeController.atualizar(new EdicaoEspecial(idFilme, titulo, diretor, genero, anoLancamento, preco, tipo, possuiBrinde));
+			}
+			default -> System.out.println("Tipo de filme inválido!");
+			}
+
+		} else {
+			System.out.printf("\nO filme não foi encontrada!\n");
+		}
+	}
+	
+	private static void deletarFilme() {
+		
+		System.out.print("Digite o número de identificação do filme: ");
+		int idFilme = leia.nextInt();
+		leia.nextLine();
+		
+		System.out.print("\nTem certeza que deseja excluir esta conta? (S/N): ");
+		String confirmacao = leia.nextLine();
+		
+		if(confirmacao.equalsIgnoreCase("S")) {
+			filmeController.deletar(idFilme);
+		}else {
+			System.out.println("\nOperação Cancelada.");
 		}
 	}
 }

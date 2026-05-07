@@ -11,7 +11,7 @@ public class EdicaoSimples extends Filme{
 		this.possuiExtraNoDisco = possuiExtraNoDisco;
 	}
 
-	public int isPossuiExtraNoDisco() {
+	public int getPossuiExtraNoDisco() {
 		return possuiExtraNoDisco;
 	}
 

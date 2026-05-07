@@ -6,8 +6,8 @@ import java.util.List;
 import loja.model.Filme;
 import loja.repository.IFilmeRepository;
 
-public class FilmeController implements IFilmeRepository{
-	
+public class FilmeController implements IFilmeRepository {
+
 	private List<Filme> listaFilmes = new ArrayList<Filme>();
 	int idUltimoFilme;
 
@@ -15,30 +15,53 @@ public class FilmeController implements IFilmeRepository{
 	public void cadastrar(Filme filme) {
 		listaFilmes.add(filme);
 		System.out.println("O Filme " + filme.getTitulo() + " foi criado com sucesso!\n");
-		
+
 	}
 
 	@Override
 	public void listarTodos() {
-		for(var filme : listaFilmes) {
+		for (var filme : listaFilmes) {
 			filme.visualizar();
 		}
 	}
 
 	@Override
 	public void atualizar(Filme filme) {
-		// TODO Auto-generated method stub
-		
+		var buscaFilme = buscarNaCollection(filme.getIdFilme());
+
+		if (buscaFilme != null) {
+			listaFilmes.set(listaFilmes.indexOf(buscaFilme), filme);
+			System.out.println("\nO Filme numero: " + filme.getIdFilme() + " foi atualizado com sucesso!");
+		} else
+			System.out.println("\nO Filme numero: " + filme.getIdFilme() + " não foi encontrado!");
+
 	}
 
 	@Override
 	public void deletar(int idFilme) {
-		// TODO Auto-generated method stub
+		var filme = buscarNaCollection(idFilme);
 		
+		if(filme != null) {
+			if(listaFilmes.remove(filme) == true) {
+				System.out.println("\nO Filme numero: " + filme.getIdFilme() + " foi atualizado com sucesso!");
+			}
+		}else {
+			System.out.printf("O Filme numero: %d não foi encontrado!%n", idFilme);
+		}
 	}
-	
+
 	public int gerarId() {
-		return ++ idUltimoFilme;
+		return ++idUltimoFilme;
+	}
+
+	public Filme buscarNaCollection(int idFilme) {
+		for (var filme : listaFilmes) {
+			if (filme.getIdFilme() == idFilme) {
+				return filme;
+			}
+		}
+
+		return null;
 	}
 
 }
