@@ -1,14 +1,17 @@
 package loja;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import loja.controller.FilmeController;
 import loja.model.EdicaoEspecial;
 import loja.model.EdicaoSimples;
 import loja.model.Filme;
 
 public class Menu {
 
-	private static Scanner leia = new Scanner(System.in);
+	private static final Scanner leia = new Scanner(System.in);
+	private static final FilmeController filmeController = new FilmeController();
 
 	public static void main(String[] args) {
 
@@ -36,7 +39,16 @@ public class Menu {
 			System.out.println("******************************************");
 			System.out.println("Entre com a opção desejada:               ");
 			System.out.println("                                          ");
-			opcao = leia.nextInt();
+			
+			try {
+				opcao = leia.nextInt();
+				leia.nextLine();
+			}catch(InputMismatchException e) {
+				opcao = -1;
+				System.out.println("\nDigite um número inteiro!");
+				leia.nextLine();
+			}
+			
 
 			if (opcao == 0) {
 				System.out.println("==========================================================");
@@ -50,22 +62,36 @@ public class Menu {
 			switch (opcao) {
 			case 1:
 				System.out.println("Cadastrar Filme\n\n");
+				keyPress();
 				break;
 			case 2:
 				System.out.println("Listar todos os Filmes\n\n");
+				listarFilmes();
+				keyPress();
 				break;
 			case 3:
 				System.out.println("Atualizar dados do filme\n\n");
+				keyPress();
 				break;
 			case 4:
 				System.out.println("Apagar Filme\n\n");
+				keyPress();
 				break;
 			default:
 				System.out.println("\nOpção Inválida!\n");
+				keyPress();
 				break;
 			}
 		}
-
+	}
+	
+	public static void keyPress() {
+		System.out.println("\n\nPressione Enter para Continuar...");
+		leia.nextLine();
+	}
+	
+	private static void listarFilmes() {
+		filmeController.listarTodos();
 	}
 
 }
