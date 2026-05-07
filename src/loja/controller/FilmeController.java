@@ -65,12 +65,13 @@ public class FilmeController implements IFilmeRepository {
 	public void buscarPorNome(String nome) {
 		List<Filme> filmesEncontrados = buscarNome(nome);
 		
-		if(filmesEncontrados != null) {
+		if(filmesEncontrados.isEmpty()) {
+			System.out.println("\nO filme " + nome + " não foi encontrado!");
+			
+		}else {
 			for(Filme filme : filmesEncontrados) {
 				filme.visualizar();
 			}
-		}else {
-			System.out.println("\n\nNenhum filme encontrado!");
 		}
 	}
 
